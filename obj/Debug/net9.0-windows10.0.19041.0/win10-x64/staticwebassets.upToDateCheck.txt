@@ -1,0 +1,8 @@
+E:\ADCW\ExpensesTracker\wwwroot\css\app.css
+E:\ADCW\ExpensesTracker\wwwroot\css\bootstrap\bootstrap.min.css.map
+E:\ADCW\ExpensesTracker\wwwroot\css\bootstrap\bootstrap.min.css
+E:\ADCW\ExpensesTracker\wwwroot\index.html
+wwwroot\css\app.css
+wwwroot\css\bootstrap\bootstrap.min.css
+wwwroot\css\bootstrap\bootstrap.min.css.map
+wwwroot\index.html

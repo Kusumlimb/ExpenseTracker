@@ -1,0 +1,142 @@
+﻿@page "/register"
+@using milestone2.Models
+@inject UserService UserService
+@inject NavigationManager NavigationManager
+@using milestone2.Components.Layout
+@layout FIrstLayout
+
+<h3>Register</h3>
+
+<div class=register-container>
+    <input @bind="RegisterUsername" placeholder="Username" />
+    <input @bind="RegisterPassword" placeholder="Password" type="password" />
+    <input @bind="RegisterEmail" placeholder="Email" />
+    <button @onclick="RegisterPage">Register</button>
+</div>
+
+@if (!string.IsNullOrEmpty(Message))
+{
+    <p>@Message</p>
+}
+
+@code {
+    private string RegisterUsername = "";
+    private string RegisterPassword = "";
+    private string RegisterEmail = "";
+    private string Message = "";
+
+    private List<User> Users = new();
+
+    protected override void OnInitialized()
+    {
+        Users = UserService.LoadUsers();
+    }
+
+    private void RegisterPage()
+    {
+        if (string.IsNullOrWhiteSpace(RegisterUsername) || string.IsNullOrWhiteSpace(RegisterPassword))
+        {
+            Message = "Username and password are required.";
+            return;
+        }
+
+        if (Users.Any(u => u.Username == RegisterUsername))
+        {
+            Message = "Username already exists.";
+            return;
+        }
+
+        // Create new user and hash the password
+        var newUser = new User
+            {
+                Username = RegisterUsername,
+                Password = UserService.HashPassword(RegisterPassword),  // Hash the password
+                Email = RegisterEmail
+            };
+
+        Users.Add(newUser);
+        UserService.SaveUsers(Users);
+
+        Message = "Registration successful. Redirecting to login...";
+        Task.Delay(2000).ContinueWith(_ => NavigationManager.NavigateTo("/"));
+    }
+}
+
+<style>
+    /* Full page styling */
+    body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: linear-gradient(135deg, #f9f9f9, #f3f3f3);
+        font-family: Arial, sans-serif;
+    }
+
+    /* Outer container */
+    .outer-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+    }
+
+    /* White container */
+    .register-container {
+        width: 400px;
+        padding: 30px 25px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    /* Title styling */
+    h3 {
+        font-size: 2rem;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    /* Input fields */
+    input {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 20px;
+        font-size: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    /* Register button */
+    button {
+        width: 100%;
+        padding: 12px;
+        background-color: #002060;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        button:hover {
+            background-color: #001844;
+        }
+
+    /* Error/Success message styling */
+    p {
+        color: #ff4d4d; /* Red for error messages */
+        font-size: 0.95rem;
+        margin-top: 15px;
+    }
+
+    .success-message {
+        color: #4caf50; /* Green for success messages */
+    }
+</style>

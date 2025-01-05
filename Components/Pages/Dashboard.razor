@@ -1,0 +1,314 @@
+﻿@page "/dashboard"
+@inject UserService UserService
+@using milestone2.Models
+@inject NavigationManager NavigationManager
+
+<h3>Welcome to your Dashboard</h3>
+
+<p>Here is your user dashboard.</p>
+
+
+
+<!-- Overall Summary -->
+<div class="row">
+    <!-- Total Number of Transactions -->
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header">Total Transactions</div>
+            <div class="card-body">
+                @TotalTransactionCount()
+            </div>
+        </div>
+    </div>
+    <!-- Net Transaction Amount -->
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header">Net Transaction Amount</div>
+            <div class="card-body">
+                Rs. @NetTransactionAmount()
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header">Total Balance</div>
+            <div class="card-body">
+                Rs. @UserService.CalculateBalance(newTransaction.UserId, Data)
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header">Total Credit</div>
+            <div class="card-body">
+                Rs. @TotalCredits()
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header">Total Debit</div>
+            <div class="card-body">
+                Rs. @TotalDebits()
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header">Total Debts</div>
+            <div class="card-body">
+                Rs. @TotalDebts()
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header">Cleared Debts</div>
+            <div class="card-body">
+                Rs. @ClearedDebts()
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header">Remaining Debts</div>
+            <div class="card-body">
+                Rs. @RemainingDebts()
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Recent Transactions -->
+<h2>Recent Transactions</h2>
+<div class="filters">
+    <!-- Filter by Date Range -->
+    <div>
+        <input type="date" @bind="filterStartDate" class="form-control" />
+        <input type="date" @bind="filterEndDate" class="form-control" />
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Transaction ID</th>
+            <th>Debit Amount</th>
+            <th>Credit Amount</th>
+            <th>Date</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var transaction in RecentTransactions())
+        {
+            <tr>
+                <td>@transaction.Id</td>
+                <td>@transaction.Debit</td>
+                <td>@transaction.Credit</td>
+                <td>@transaction.Date.ToString("MM/dd/yyyy")</td>
+                <td>@transaction.Description</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Recent Debts -->
+<h2>Recent Debts</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Debt ID</th>
+            <th>Total Debt</th>
+            <th>Remaining Debt</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var debt in RecentDebts())
+        {
+            var remainingDebt = debt.Amount - debt.PaidAmount;
+            <tr>
+                <td>@debt.Id</td>
+                <td>@debt.Amount</td>
+                <td>@remainingDebt</td>
+                <td>@debt.Date.ToString("MM/dd/yyyy")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+
+    private AppData Data = new AppData();
+    private Transaction newTransaction = new Transaction();
+    private DateTime? filterStartDate = null;
+    private DateTime? filterEndDate = null;
+
+    // Function to get recent transactions
+    private IEnumerable<Transaction> RecentTransactions()
+    {
+        return Data.Transactions.OrderByDescending(t => t.Date).Take(5);
+    }
+
+    // Function to get recent debts
+    private IEnumerable<Debts> RecentDebts()
+    {
+        return Data.Debts.OrderByDescending(d => d.Date).Take(5);
+    }
+
+    // Calculate total debts
+    private decimal TotalDebts()
+    {
+        return Data.Debts.Sum(d => d.Amount - d.PaidAmount);
+    }
+
+    // Calculate total credits
+    private decimal TotalCredits()
+    {
+        return Data.Transactions.Sum(t => t.Credit);
+    }
+
+    // Calculate total debits
+    private decimal TotalDebits()
+    {
+        return Data.Transactions.Sum(t => t.Debit);
+    }
+
+    // Calculate cleared debts
+    private decimal ClearedDebts()
+    {
+        return Data.Debts.Sum(d => d.PaidAmount);
+    }
+
+    // Calculate remaining debts
+    private decimal RemainingDebts()
+    {
+        return Data.Debts.Sum(d => d.Amount - d.PaidAmount);
+    }
+    private IEnumerable<Debts> FilteredDebts =>
+        Data.Debts.Where(d =>
+            (!filterStartDate.HasValue || d.Date >= filterStartDate.Value) &&
+            (!filterEndDate.HasValue || d.Date <= filterEndDate.Value));
+
+    protected override void OnInitialized()
+    {
+        Data = UserService.LoadData();
+    }
+
+    // Calculate total transaction count
+    private int TotalTransactionCount()
+    {
+        return Data.Transactions.Count();
+    }
+
+    // Calculate net transaction amount
+    private decimal NetTransactionAmount()
+    {
+        var totalCredits = TotalCredits(); // inflows
+        var totalDebits = TotalDebits();   // outflows
+        var totalDebts = TotalDebts();     // debts
+        return totalCredits + totalDebts - totalDebits;
+    }
+
+    
+}
+
+<style>
+    .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    /* Header */
+    /*h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+    }*/
+
+    /* Card Layout for Summary */
+    .card {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        margin-top: 1.3rem;
+        padding: 20px;
+    }
+
+    .filters {
+        margin-right: 35rem;
+        margin-top: 1.2rem;
+        margin-bottom: 1.2rem;
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+        .filters div {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-width: 150px;
+        }
+
+    .card-header {
+        font-size: 1.2em;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .card-body {
+        font-size: 1.2em;
+        color: #555;
+    }
+
+    /* Grid Layout for Summary */
+    .row {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .col-md-3 {
+        flex: 1 1 23%;
+        min-width: 250px;
+    }
+
+    /* Tables */
+
+    h2 {
+        margin-top: 1.5rem;
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 40px;
+        margin-top: 1.3rem;
+    }
+
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+
+        table tr:hover {
+            background-color: #f9f9f9;
+        }
+</style>
+
+
+

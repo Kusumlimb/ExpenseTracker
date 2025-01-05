@@ -1,0 +1,11 @@
+﻿@page "/logout"
+@inject NavigationManager NavigationManager
+
+<button @onclick="Logout">Logout</button>
+
+@code {
+    private void Logout()
+    {
+        NavigationManager.NavigateTo("/");  // Redirect to login page
+    }
+}

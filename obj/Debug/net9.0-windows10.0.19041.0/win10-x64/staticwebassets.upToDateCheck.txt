@@ -1,0 +1,8 @@
+E:\Dataweb\milestone2\wwwroot\css\app.css
+E:\Dataweb\milestone2\wwwroot\css\bootstrap\bootstrap.min.css.map
+E:\Dataweb\milestone2\wwwroot\index.html
+E:\Dataweb\milestone2\wwwroot\css\bootstrap\bootstrap.min.css
+wwwroot\css\app.css
+wwwroot\css\bootstrap\bootstrap.min.css
+wwwroot\css\bootstrap\bootstrap.min.css.map
+wwwroot\index.html

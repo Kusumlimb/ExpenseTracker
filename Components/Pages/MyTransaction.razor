@@ -1,0 +1,346 @@
+﻿@page "/transactions"
+@using milestone2.Models
+
+@inject UserService UserService
+
+<h1>User Transactions</h1>
+
+<!-- Filters -->
+<div class="filters">
+    <div>
+        <label>Filter by Type:</label>
+        <select @bind="filterType" class="form-control">
+            <option value="">All</option>
+            <option value="Credit">Credit</option>
+            <option value="Debit">Debit</option>
+        </select>
+    </div>
+
+    <div>
+        <label>Filter by Tags:</label>
+        <select @bind="selectedTag" class="form-control">
+            <option value="">All</option>
+            @foreach (var tag in DefaultTags)
+            {
+                <option value="@tag">@tag</option>
+            }
+        </select>
+    </div>
+
+    <div>
+        <label>Filter by Date Range:</label>
+        <input type="date" @bind="filterStartDate" class="form-control" />
+        <input type="date" @bind="filterEndDate" class="form-control" />
+    </div>
+
+    <div>
+        <label>Sort by:</label>
+        <select @bind="sortOption" class="form-control">
+            <option value="DateAsc">Date (Ascending)</option>
+            <option value="DateDesc">Date (Descending)</option>
+            <option value="AmountAsc">Amount (Ascending)</option>
+            <option value="AmountDesc">Amount (Descending)</option>
+        </select>
+    </div>
+</div>
+
+<!-- Search -->
+<div class="search">
+    <input type="text" @bind="searchQuery" class="form-control" placeholder="Search transactions..." />
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Transaction ID</th>
+            <th>Main Balance</th>
+            <th>Debit</th>
+            <th>Credit</th>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Tags</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (SearchedTransactions.Any())
+        {
+            @foreach (var transaction in SearchedTransactions)
+            {
+                <tr>
+                    <td>@transaction.Id</td>
+                    <td>@FilteredBalance</td>
+                    <td>@transaction.Debit</td>
+                    <td>@transaction.Credit</td>
+                    <td>@transaction.Date.ToString("MM/dd/yyyy")</td>
+                    <td>@transaction.Description</td>
+                    <td>@string.Join(", ", transaction.Tags)</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="7">No transactions found.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (!string.IsNullOrEmpty(validationMessage))
+{
+    <div class="alert alert-danger">@validationMessage</div>
+}
+
+<h2>Add New Transaction</h2>
+<EditForm Model="newTransaction" OnValidSubmit="HandleTransactionSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="debit">Debit</label>
+        <InputNumber id="debit" @bind-Value="newTransaction.Debit" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="credit">Credit</label>
+        <InputNumber id="credit" @bind-Value="newTransaction.Credit" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="description">Description</label>
+        <InputText id="description" @bind-Value="newTransaction.Description" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="tag">Tag</label>
+        <select id="tag" @bind="selectedTagForTransaction" class="form-control">
+            <option value="">Select a Tag</option>
+            @foreach (var tag in DefaultTags)
+            {
+                <option value="@tag">@tag</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Add Transaction</button>
+    </div>
+</EditForm>
+
+@code {
+    private AppData Data;
+    private Transaction newTransaction = new Transaction { Tags = new List<string>() };
+    private string validationMessage = "";
+
+    private string selectedTag = "";
+    private string selectedTagForTransaction = "";
+
+    private string filterType = "";
+    private DateTime? filterStartDate = null;
+    private DateTime? filterEndDate = null;
+    private string sortOption = "DateAsc";
+    private string searchQuery = "";
+
+    private List<string> DefaultTags = new List<string>
+    {
+        "Yearly", "Monthly", "Food", "Drinks", "Clothes", "Gadgets", "Miscellaneous", "Fuel", "Rent", "EMI", "Party"
+    };
+
+    private decimal FilteredBalance =>
+        FilteredTransactions.Sum(t => t.Credit) - FilteredTransactions.Sum(t => t.Debit);
+
+    private IEnumerable<Transaction> FilteredTransactions =>
+        Data?.Transactions?.Where(t =>
+            (string.IsNullOrEmpty(filterType) || (filterType == "Credit" && t.Credit > 0) || (filterType == "Debit" && t.Debit > 0)) &&
+            (string.IsNullOrEmpty(selectedTag) || t.Tags.Contains(selectedTag)) &&
+            (!filterStartDate.HasValue || t.Date >= filterStartDate.Value) &&
+            (!filterEndDate.HasValue || t.Date <= filterEndDate.Value)) ?? Enumerable.Empty<Transaction>();
+
+    private IEnumerable<Transaction> SortedTransactions =>
+        FilteredTransactions.OrderBy(t =>
+            sortOption == "DateAsc" ? t.Date.Ticks :
+            sortOption == "DateDesc" ? -t.Date.Ticks :
+            sortOption == "AmountAsc" ? (t.Credit - t.Debit) :
+            -(t.Credit - t.Debit));
+
+    private IEnumerable<Transaction> SearchedTransactions =>
+        SortedTransactions.Where(t =>
+            string.IsNullOrEmpty(searchQuery) || t.Description.Contains(searchQuery, StringComparison.OrdinalIgnoreCase));
+
+    protected override void OnInitialized()
+    {
+        Data = UserService.LoadData();
+    }
+
+    private void HandleTransactionSubmit()
+    {
+        if (!ValidateTransaction(newTransaction))
+        {
+            return;
+        }
+
+        if (!string.IsNullOrEmpty(selectedTagForTransaction))
+        {
+            newTransaction.Tags.Add(selectedTagForTransaction);
+        }
+
+        newTransaction.Id = Data.Transactions.Count + 1;
+        newTransaction.Date = DateTime.Now;
+        Data.Transactions.Add(newTransaction);
+        UserService.SaveData(Data);
+
+        // Reset form
+        newTransaction = new Transaction { Tags = new List<string>() };
+    }
+
+    private bool ValidateTransaction(Transaction transaction)
+    {
+        if (transaction.Debit > 0)
+        {
+            var balance = UserService.CalculateBalance(transaction.UserId, Data);
+            if (balance < transaction.Debit)
+            {
+                validationMessage = "Insufficient balance for this transaction.";
+                return false;
+            }
+        }
+        validationMessage = "";
+        return true;
+    }
+}
+
+<style>
+    /* Global page styling */
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background: #f4f4f9;
+        color: #333;
+        line-height: 1.6;
+    }
+
+    h1, h2 {
+        text-align: center;
+        color: #002060;
+    }
+
+    /* Table styling */
+    table {
+        width: 90%;
+        margin: 20px auto;
+        border-collapse: collapse;
+        background: #fff;
+        border-radius: 5px;
+        overflow: hidden;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+        padding: 10px 15px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background: #002060;
+        color: black;
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+
+    td {
+        background: #f9f9f9;
+    }
+
+    tr:hover td {
+        background: #f1f1f1;
+    }
+
+    /* Form styling */
+    form {
+        width: 90%;
+        margin: 20px auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 5px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    input, button {
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1rem;
+        box-sizing: border-box;
+    }
+
+    button {
+        background-color: #002060;
+        color: white;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+        button:hover {
+            background-color: #001844;
+        }
+
+    /* Filters container styling */
+    .filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+        margin: 20px auto;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 90%;
+    }
+
+        .filters > div {
+            flex: 1 1 calc(25% - 20px);
+            min-width: 200px;
+        }
+
+        .filters label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .filters .form-control {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease-in-out;
+        }
+
+            .filters .form-control:focus {
+                outline: none;
+                border-color: #002060;
+                box-shadow: 0 0 5px rgba(0, 32, 96, 0.5);
+            }
+
+   
+</style>

@@ -1,0 +1,224 @@
+﻿@page "/debts"
+@using milestone2.Models
+@inject UserService UserService
+
+<h1>User Debts</h1>
+
+<div class="filters">
+    <!-- Filter by Date Range -->
+    <div>
+        <label>Filter by Date Range:</label>
+        <input type="date" @bind="filterStartDate" class="form-control" />
+        <input type="date" @bind="filterEndDate" class="form-control" />
+    </div>
+
+    <!-- Sorting Options -->
+    <div>
+        <label>Sort by:</label>
+        <select @bind="sortOption" class="form-control">
+            <option value="DateAsc">Date (Ascending)</option>
+            <option value="DateDesc">Date (Descending)</option>
+            <option value="AmountAsc">Amount (Ascending)</option>
+            <option value="AmountDesc">Amount (Descending)</option>
+        </select>
+    </div>
+</div>
+
+<!-- Search -->
+<div class="search">
+    <input type="text" @bind="searchQuery" class="form-control" placeholder="Search debts..." />
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Debt ID</th>
+            <th>Total Debt</th>
+            <th>Paid Amount</th>
+            <th>Remaining Debt</th>
+            <th>Date</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var debt in Data.Debts)
+        {
+            <tr>
+                <td>@debt.Id</td>
+                <td>@debt.Amount</td>
+                <td>@debt.PaidAmount</td>
+                <td>@(Data.Debts.Sum(d => d.Amount) - Data.Debts.Sum(d => d.PaidAmount))</td>
+                <td>@debt.Date.ToString("MM/dd/yyyy")</td>
+                <td>@debt.Description</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h2>Add New Debt</h2>
+<EditForm Model="newDebt" OnValidSubmit="HandleDebtSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="amount">Debt Amount</label>
+        <InputNumber id="amount" @bind-Value="newDebt.Amount" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="paidAmount">Paid Amount</label>
+        <InputNumber id="paidAmount" @bind-Value="newDebt.PaidAmount" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="description">Description</label>
+        <InputText id="description" @bind-Value="newDebt.Description" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Add Debt</button>
+    </div>
+</EditForm>
+
+@code {
+    private AppData Data;
+    private Debts newDebt = new Debts();
+
+    private string filterType = "";
+    private DateTime? filterStartDate = null;
+    private DateTime? filterEndDate = null;
+    private string sortOption = "DateAsc";
+    private string searchQuery = "";
+
+    protected override void OnInitialized()
+    {
+        Data = UserService.LoadData();
+    }
+
+    private void HandleDebtSubmit()
+    {
+        newDebt.Id = Data.Debts.Count + 1;
+        newDebt.Date = DateTime.Now;
+        Data.Debts.Add(newDebt);
+        UserService.SaveData(Data);
+
+        // Reset form
+        newDebt = new Debts();
+    }
+
+    private IEnumerable<Debts> FilteredDebts =>
+        Data.Debts.Where(d =>
+            (!filterStartDate.HasValue || d.Date >= filterStartDate.Value) &&
+            (!filterEndDate.HasValue || d.Date <= filterEndDate.Value));
+
+    private IEnumerable<Debts> SortedDebts =>
+        FilteredDebts.OrderBy(d =>
+            sortOption == "DateAsc" ? d.Date.Ticks :
+            sortOption == "DateDesc" ? -d.Date.Ticks :
+            sortOption == "AmountAsc" ? d.Amount :
+            -d.Amount);
+
+    private IEnumerable<Debts> SearchedDebts =>
+        SortedDebts.Where(d =>
+            string.IsNullOrEmpty(searchQuery) || d.Description.Contains(searchQuery, StringComparison.OrdinalIgnoreCase));
+}
+}
+
+<style>
+    /* Global Page Styling */
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background: #f9f9f9;
+        color: #333;
+        line-height: 1.5;
+    }
+
+    h1, h2 {
+        text-align: center;
+        color: #002060;
+    }
+
+    /* Table Styling */
+    table {
+        width: 90%;
+        margin: 20px auto;
+        border-collapse: collapse;
+        background: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+        padding: 10px 15px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #002060;
+        color: black;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    td {
+        background: #f9f9f9;
+    }
+
+    tr:hover td {
+        background-color: #f1f1f1;
+    }
+
+    /* Form Styling */
+    form {
+        width: 80%;
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    input, button {
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0 15px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 1rem;
+        box-sizing: border-box;
+    }
+
+    button {
+        background-color: #002060;
+        color: white;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+        button:hover {
+            background-color: #001844;
+        }
+
+    .form-group input:focus {
+        outline: none;
+        border-color: #002060;
+        box-shadow: 0 0 5px rgba(0, 32, 96, 0.3);
+    }
+</style>

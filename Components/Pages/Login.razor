@@ -1,0 +1,134 @@
+﻿@page "/"
+@using milestone2.Models
+@inject UserService UserService
+@inject NavigationManager NavigationManager
+@using milestone2.Components.Layout
+@layout FIrstLayout
+
+<h3>Login</h3>
+
+<div class="outer-container">
+    <input @bind="LoginUsername" placeholder="Username" />
+    <input @bind="LoginPassword" placeholder="Password" type="password" />
+    <button @onclick="LoginPage">Login</button>
+    <a href="/register">Register</a>
+</div>
+
+@if (!string.IsNullOrEmpty(Message))
+{
+        <p>@Message</p>
+}
+
+@code {
+    private string LoginUsername = "";
+    private string LoginPassword = "";
+    private string Message = "";
+
+    private List<User> Users = new();
+
+    protected override void OnInitialized()
+    {
+        Users = UserService.LoadUsers();
+    }
+
+    private void LoginPage()
+    {
+        var user = Users.FirstOrDefault(u => u.Username == LoginUsername);
+
+        if (user != null && UserService.ValidatePassword(LoginPassword, user.Password))
+        {
+            // Redirect to dashboard if login is successful
+            NavigationManager.NavigateTo("/dashboard");
+        }
+        else
+        {
+            Message = "Invalid username or password.";
+        }
+    }
+}
+
+
+<style>
+ 
+    /* Full page styling */
+    body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: linear-gradient(135deg, #f9f9f9, #f3f3f3);
+        font-family: Arial, sans-serif;
+    }
+
+    /*Login container wrapper */
+    .outer-container {
+        width: 360px;
+        padding: 30px 25px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+
+    /* Title styling */
+    h3 {
+        font-size: 2rem;
+        color: #333;
+        margin-bottom: 25px;
+    }
+
+    /* Input fields */
+    input {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 20px;
+        font-size: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    /* Login button */
+    button {
+        width: 100%;
+        padding: 12px;
+        background-color: #002060;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        button:hover {
+            background-color: #001844;
+        }
+
+    /* Register link styling */
+    .register-link {
+        display: block;
+        margin-top: 5px;
+        text-align: right;
+        color: #0046d5;
+        text-decoration: none;
+        font-size: 0.9rem;
+    }
+
+        .register-link:hover {
+            text-decoration: underline;
+        }
+
+    /* Error message styling */
+    p {
+        color: #ff4d4d;
+        font-size: 0.95rem;
+        margin-top: 15px;
+    }
+</style>
+
+
+

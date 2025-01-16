@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("milestone2")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+f913d1e9c6c321796b9810a79364a3ec5d4de992")]
 [assembly: System.Reflection.AssemblyProductAttribute("milestone2")]
 [assembly: System.Reflection.AssemblyTitleAttribute("milestone2")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

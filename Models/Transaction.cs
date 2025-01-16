@@ -17,5 +17,14 @@ namespace milestone2.Models
 
         public List<string> Tags { get; set; } = new(); // New: Transaction Tags
 
+    
+
+        public decimal Amount
+            {
+                get
+                {
+                    return Credit + Debit; // Net inflow if positive, net outflow if negative
+                }
+            }
+            }
     }
-}

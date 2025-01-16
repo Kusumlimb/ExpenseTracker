@@ -8,22 +8,31 @@
 <h3>Login</h3>
 
 <div class="outer-container">
-    <input @bind="LoginUsername" placeholder="Username" />
-    <input @bind="LoginPassword" placeholder="Password" type="password" />
-    <button @onclick="LoginPage">Login</button>
-    <a href="/register">Register</a>
+    <input @bind="LoginUsername" placeholder="Username" required />
+    <input @bind="LoginPassword" placeholder="Password" type="password" required />
+
+    @* <div class="userlabel"> *@
+    @*     <label for="currency" class="user-label">Currency</label> *@
+    @*     <select class="userinput form-control" id="currency" @bind="SelectedCurrency"> *@
+    @*         <option value="USD">$ (USD)</option> *@
+    @*         <option value="NRP">NRP (Nepalese Rupee)</option> *@
+    @*     </select> *@
+    @* </div> *@
+
+    <button @onclick="HandleLogin">Login</button>
+    <a href="/register" class="register-link">Register</a>
 </div>
 
 @if (!string.IsNullOrEmpty(Message))
 {
-        <p>@Message</p>
+    <p>@Message</p>
 }
 
 @code {
     private string LoginUsername = "";
     private string LoginPassword = "";
     private string Message = "";
-
+    private string SelectedCurrency = "USD"; // Ensure proper initialization
     private List<User> Users = new();
 
     protected override void OnInitialized()
@@ -31,7 +40,7 @@
         Users = UserService.LoadUsers();
     }
 
-    private void LoginPage()
+    private void HandleLogin()
     {
         var user = Users.FirstOrDefault(u => u.Username == LoginUsername);
 
@@ -45,90 +54,109 @@
             Message = "Invalid username or password.";
         }
     }
+
 }
 
-
 <style>
- 
-    /* Full page styling */
+    /* General Body Styling */
     body {
         margin: 0;
         padding: 0;
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
-        background: linear-gradient(135deg, #f9f9f9, #f3f3f3);
-        font-family: Arial, sans-serif;
+        min-height: 100vh;
+        background: linear-gradient(to bottom right, #e3e3e3, #d3d3d3);
+        font-family: 'Arial', sans-serif;
     }
 
-    /*Login container wrapper */
+    /* Login Container Styling */
     .outer-container {
         width: 360px;
-        padding: 30px 25px;
-        background-color: white;
-        border-radius: 10px;
-        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        padding: 25px 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         text-align: center;
     }
 
-
-    /* Title styling */
+    /* Title */
     h3 {
-        font-size: 2rem;
+        font-size: 1.8rem;
         color: #333;
-        margin-bottom: 25px;
+        margin-bottom: 15px;
     }
 
-    /* Input fields */
+    /* Input Fields */
     input {
+        display: block;
         width: 100%;
-        padding: 12px;
-        margin-bottom: 20px;
+        padding: 10px;
+        margin-bottom: 15px;
         font-size: 1rem;
-        border: 1px solid #ddd;
-        border-radius: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
         box-sizing: border-box;
+        outline: none;
     }
 
-    /* Login button */
+    /* Currency Dropdown */
+    select {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-bottom: 15px;
+        box-sizing: border-box;
+        appearance: none; /* For removing arrow in some browsers */
+    }
+
+    label {
+        display: block;
+        text-align: left;
+        margin-bottom: 8px;
+        font-size: 0.95rem;
+        font-weight: bold;
+        color: #555;
+    }
+
+    /* Login Button */
     button {
         width: 100%;
         padding: 12px;
         background-color: #002060;
-        color: white;
+        color: #fff;
+        font-size: 1.1rem;
         border: none;
         border-radius: 5px;
-        font-size: 1.1rem;
         cursor: pointer;
-        transition: background-color 0.3s ease;
+        transition: all 0.3s ease-in-out;
     }
 
         button:hover {
-            background-color: #001844;
+            background-color: #1558b2;
         }
 
-    /* Register link styling */
+    /* Register Link */
     .register-link {
-        display: block;
-        margin-top: 5px;
-        text-align: right;
-        color: #0046d5;
-        text-decoration: none;
+        margin-top: 10px;
+        color: #1a73e8;
         font-size: 0.9rem;
+        display: block;
+        text-decoration: none;
+        text-align: center;
     }
 
         .register-link:hover {
             text-decoration: underline;
         }
 
-    /* Error message styling */
+    /* Message Styling */
     p {
-        color: #ff4d4d;
+        color: red;
         font-size: 0.95rem;
-        margin-top: 15px;
+        margin-top: 10px;
     }
 </style>
-
-
-

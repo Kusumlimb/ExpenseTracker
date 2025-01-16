@@ -2,6 +2,7 @@
 @inject UserService UserService
 @using milestone2.Models
 @inject NavigationManager NavigationManager
+@inject UserService UserService
 
 <h3>Welcome to your Dashboard</h3>
 
@@ -23,7 +24,7 @@
     <!-- Net Transaction Amount -->
     <div class="col-md-3">
         <div class="card">
-            <div class="card-header">Net Transaction Amount</div>
+            <div class="card-header"><b> Net Transaction Amount</b></div>
             <div class="card-body">
                 Rs. @NetTransactionAmount()
             </div>
@@ -31,7 +32,7 @@
     </div>
     <div class="col-md-3">
         <div class="card">
-            <div class="card-header">Total Balance</div>
+            <div class="card-header">Remaining Balance</div>
             <div class="card-body">
                 Rs. @UserService.CalculateBalance(newTransaction.UserId, Data)
             </div>
@@ -41,7 +42,7 @@
         <div class="card">
             <div class="card-header">Total Credit</div>
             <div class="card-body">
-                Rs. @TotalCredits()
+                Rs. @TotalCredits() 
             </div>
         </div>
     </div>
@@ -58,6 +59,7 @@
             <div class="card-header">Total Debts</div>
             <div class="card-body">
                 Rs. @TotalDebts()
+                
             </div>
         </div>
     </div>
@@ -90,23 +92,23 @@
     </div>
 </div>
 
+<!-- Top Five Highest Transactions -->
+<h2>Top Five Highest Transactions</h2>
 <table class="table">
     <thead>
         <tr>
             <th>Transaction ID</th>
-            <th>Debit Amount</th>
-            <th>Credit Amount</th>
+            <th>Amount</th>
             <th>Date</th>
             <th>Description</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var transaction in RecentTransactions())
+        @foreach (var transaction in GetTopFiveHighestTransactions())
         {
             <tr>
                 <td>@transaction.Id</td>
-                <td>@transaction.Debit</td>
-                <td>@transaction.Credit</td>
+                <td>Rs. @transaction.Amount</td>
                 <td>@transaction.Date.ToString("MM/dd/yyyy")</td>
                 <td>@transaction.Description</td>
             </tr>
@@ -114,106 +116,85 @@
     </tbody>
 </table>
 
-<!-- Recent Debts -->
-<h2>Recent Debts</h2>
+<!-- Top Five Lowest Transactions -->
+<h2>Top Five Lowest Transactions</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Transaction ID</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var transaction in GetTopFiveLowestTransactions())
+        {
+            <tr>
+                <td>@transaction.Id</td>
+                <td>Rs. @transaction.Amount</td>
+                <td>@transaction.Date.ToString("MM/dd/yyyy")</td>
+                <td>@transaction.Description</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+@* <table class="table"> *@
+@*     <thead> *@
+@*         <tr> *@
+@*             <th>Transaction ID</th> *@
+@*             <th>Debit Amount (@UserService.GetCurrency())</th> *@
+@*             <th>Credit Amount (@UserService.GetCurrency())</th> *@
+@*             <th>Date</th> *@
+@*             <th>Description</th> *@
+@*         </tr> *@
+@*     </thead> *@
+@*     <tbody> *@
+@*         @foreach (var transaction in RecentTransactions()) *@
+@*         { *@
+@*                 <tr> *@
+@*                     <td>@transaction.Id</td> *@
+@*                     <td>@UserService.ConvertAmount(transaction.Debit, UserService.GetCurrency())</td> *@
+@*                     <td>@UserService.ConvertAmount(transaction.Credit, UserService.GetCurrency())</td> *@
+@*                     <td>@transaction.Date.ToString("MM/dd/yyyy")</td> *@
+@*                     <td>@transaction.Description</td> *@
+@*                 </tr> *@
+@*         } *@
+
+@*     </tbody> *@
+@* </table> *@
+
+<h2>Pending Debts</h2>
 <table class="table">
     <thead>
         <tr>
             <th>Debt ID</th>
-            <th>Total Debt</th>
+            <th>Total Debt</th> 
+            <th>Paid Amount</th> 
             <th>Remaining Debt</th>
             <th>Date</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var debt in RecentDebts())
+        @foreach (var debt in RecentDebts().Where(d => (d.Amount - d.PaidAmount) > 0))
         {
             var remainingDebt = debt.Amount - debt.PaidAmount;
             <tr>
                 <td>@debt.Id</td>
-                <td>@debt.Amount</td>
-                <td>@remainingDebt</td>
+                <td>Rs. @debt.Amount</td> 
+                <td>Rs. @debt.PaidAmount</td>
+                <td>Rs. @remainingDebt</td>
                 <td>@debt.Date.ToString("MM/dd/yyyy")</td>
             </tr>
         }
     </tbody>
 </table>
 
-@code {
 
-    private AppData Data = new AppData();
-    private Transaction newTransaction = new Transaction();
-    private DateTime? filterStartDate = null;
-    private DateTime? filterEndDate = null;
 
-    // Function to get recent transactions
-    private IEnumerable<Transaction> RecentTransactions()
-    {
-        return Data.Transactions.OrderByDescending(t => t.Date).Take(5);
-    }
-
-    // Function to get recent debts
-    private IEnumerable<Debts> RecentDebts()
-    {
-        return Data.Debts.OrderByDescending(d => d.Date).Take(5);
-    }
-
-    // Calculate total debts
-    private decimal TotalDebts()
-    {
-        return Data.Debts.Sum(d => d.Amount - d.PaidAmount);
-    }
-
-    // Calculate total credits
-    private decimal TotalCredits()
-    {
-        return Data.Transactions.Sum(t => t.Credit);
-    }
-
-    // Calculate total debits
-    private decimal TotalDebits()
-    {
-        return Data.Transactions.Sum(t => t.Debit);
-    }
-
-    // Calculate cleared debts
-    private decimal ClearedDebts()
-    {
-        return Data.Debts.Sum(d => d.PaidAmount);
-    }
-
-    // Calculate remaining debts
-    private decimal RemainingDebts()
-    {
-        return Data.Debts.Sum(d => d.Amount - d.PaidAmount);
-    }
-    private IEnumerable<Debts> FilteredDebts =>
-        Data.Debts.Where(d =>
-            (!filterStartDate.HasValue || d.Date >= filterStartDate.Value) &&
-            (!filterEndDate.HasValue || d.Date <= filterEndDate.Value));
-
-    protected override void OnInitialized()
-    {
-        Data = UserService.LoadData();
-    }
-
-    // Calculate total transaction count
-    private int TotalTransactionCount()
-    {
-        return Data.Transactions.Count();
-    }
-
-    // Calculate net transaction amount
-    private decimal NetTransactionAmount()
-    {
-        var totalCredits = TotalCredits(); // inflows
-        var totalDebits = TotalDebits();   // outflows
-        var totalDebts = TotalDebts();     // debts
-        return totalCredits + totalDebts - totalDebits;
-    }
-
-    
-}
 
 <style>
     .container {

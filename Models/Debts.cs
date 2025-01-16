@@ -16,5 +16,14 @@ namespace milestone2.Models
         public DateTime Date { get; set; }
         public string Description { get; set; }
 
+        public List<Payment> Payments { get; set; } = new List<Payment>();
+
+
+    }
+
+    public class Payment
+    {
+        public decimal Amount { get; set; }
+        public DateTime Date { get; set; }
     }
 }

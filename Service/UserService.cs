@@ -9,8 +9,8 @@ public class UserService
     private static readonly string DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
     private static readonly string FolderPath = Path.Combine(DesktopPath, "LocalDB");
     private static readonly string FilePath = Path.Combine(FolderPath, "appdata.json");
+    private string SelectedCurrency = "USD";
 
- 
     // Load AppData (Users, Transactions, Debts) from JSON file
     public AppData LoadData()
     {
@@ -101,7 +101,36 @@ public class UserService
         var userTransactions = data.Transactions.Where(t => t.UserId == userId).ToList();
         decimal totalCredit = userTransactions.Sum(t => t.Credit);
         decimal totalDebit = userTransactions.Sum(t => t.Debit);
-        return totalCredit - totalDebit;
+        return totalCredit - totalDebit; // credit +debt - debit
+    }
+
+    public string GetCurrency()
+    {
+        return SelectedCurrency;
+    }
+
+    public void SetCurrency(string currency)
+    {
+        SelectedCurrency = currency;
+    }
+
+    public decimal ConvertAmount(decimal amount, string targetCurrency)
+    {
+        // Example: Add currency conversion logic
+        var conversionRates = new Dictionary<string, decimal>
+    {
+        { "USD", 1m },
+        { "EUR", 0.9m },
+        { "NPR", 120m }
+    };
+
+        if (conversionRates.ContainsKey(SelectedCurrency) && conversionRates.ContainsKey(targetCurrency))
+        {
+            decimal rate = conversionRates[targetCurrency] / conversionRates[SelectedCurrency];
+            return amount * rate;
+        }
+
+        return amount; // Fallback to the same amount if no conversion rate found
     }
 }
 

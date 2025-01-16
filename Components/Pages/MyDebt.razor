@@ -38,6 +38,7 @@
             <th>Remaining Debt</th>
             <th>Date</th>
             <th>Description</th>
+           
         </tr>
     </thead>
     <tbody>
@@ -45,13 +46,17 @@
         {
             <tr>
                 <td>@debt.Id</td>
-                <td>@debt.Amount</td>
-                <td>@debt.PaidAmount</td>
                 <td>@(Data.Debts.Sum(d => d.Amount) - Data.Debts.Sum(d => d.PaidAmount))</td>
+                <td>@debt.PaidAmount</td>
+                <td>@debt.Amount</td>
                 <td>@debt.Date.ToString("MM/dd/yyyy")</td>
                 <td>@debt.Description</td>
+                <td>@Data.Users.FirstOrDefault(u => u.Id == debt.UserId)?.Name</td>
+
             </tr>
         }
+
+
     </tbody>
 </table>
 
@@ -83,6 +88,7 @@
 @code {
     private AppData Data;
     private Debts newDebt = new Debts();
+    private decimal paymentAmount = 0;
 
     private string filterType = "";
     private DateTime? filterStartDate = null;
@@ -104,6 +110,30 @@
 
         // Reset form
         newDebt = new Debts();
+    }
+
+    private void PayDebt(int debtId, decimal paymentAmount)
+    {
+        var debt = Data.Debts.FirstOrDefault(d => d.Id == debtId);
+        if (debt != null && paymentAmount > 0)
+        {
+            var remainingDebt = debt.Amount - debt.PaidAmount;
+
+            // Ensure the payment does not exceed the remaining debt
+            if (paymentAmount <= remainingDebt)
+            {
+                // Update the debt
+                debt.PaidAmount += paymentAmount;
+                debt.Payments.Add(new Payment { Amount = paymentAmount, Date = DateTime.Now });
+                UserService.SaveData(Data); // Save updated data
+                Console.WriteLine("Payment successful!");
+            }
+            else
+            {
+                // Handle the case where payment exceeds remaining debt
+                Console.WriteLine("Payment exceeds remaining debt. Please enter a valid amount.");
+            }
+        }
     }
 
     private IEnumerable<Debts> FilteredDebts =>
@@ -140,6 +170,24 @@
         color: #002060;
     }
 
+    .pending-debt {
+        background-color: red; /* Light red color */
+    }
+
+    .btn-warning {
+        background-color: #f0ad4e;
+        border: none;
+        color: white;
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        cursor: pointer;
+        border-radius: 0.25rem;
+        margin-top: 0.5rem;
+    }
+
+        .btn-warning:hover {
+            background-color: #ec971f;
+        }
     /* Table Styling */
     table {
         width: 90%;

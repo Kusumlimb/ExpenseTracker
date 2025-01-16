@@ -3,17 +3,14 @@ E:\Dataweb\milestone2\bin\Debug\net9.0-windows10.0.19041.0\win10-x64\AboutAssets
 E:\Dataweb\milestone2\bin\Debug\net9.0-windows10.0.19041.0\win10-x64\wwwroot\css\app.css.gz
 E:\Dataweb\milestone2\bin\Debug\net9.0-windows10.0.19041.0\win10-x64\wwwroot\css\bootstrap\bootstrap.min.css.map.gz
 E:\Dataweb\milestone2\bin\Debug\net9.0-windows10.0.19041.0\win10-x64\wwwroot\index.html.gz
-E:\Dataweb\milestone2\bin\Debug\net9.0-windows10.0.19041.0\win10-x64\wwwroot\milestone2.8b0nnhb6bi.bundle.scp.css.gz
 E:\Dataweb\milestone2\bin\Debug\net9.0-windows10.0.19041.0\win10-x64\wwwroot\milestone2.styles.css.gz
 E:\Dataweb\milestone2\bin\Debug\net9.0-windows10.0.19041.0\win10-x64\wwwroot\css\app.css.br
 E:\Dataweb\milestone2\bin\Debug\net9.0-windows10.0.19041.0\win10-x64\wwwroot\css\bootstrap\bootstrap.min.css.map.br
 E:\Dataweb\milestone2\bin\Debug\net9.0-windows10.0.19041.0\win10-x64\wwwroot\index.html.br
-E:\Dataweb\milestone2\bin\Debug\net9.0-windows10.0.19041.0\win10-x64\wwwroot\milestone2.8b0nnhb6bi.bundle.scp.css.br
 E:\Dataweb\milestone2\bin\Debug\net9.0-windows10.0.19041.0\win10-x64\wwwroot\milestone2.styles.css.br
 E:\Dataweb\milestone2\bin\Debug\net9.0-windows10.0.19041.0\win10-x64\wwwroot\css\bootstrap\bootstrap.min.css.br
 E:\Dataweb\milestone2\bin\Debug\net9.0-windows10.0.19041.0\win10-x64\wwwroot\css\bootstrap\bootstrap.min.css.gz
 E:\Dataweb\milestone2\bin\Debug\net9.0-windows10.0.19041.0\win10-x64\wwwroot\milestone2.styles.css
-E:\Dataweb\milestone2\bin\Debug\net9.0-windows10.0.19041.0\win10-x64\wwwroot\milestone2.8b0nnhb6bi.bundle.scp.css
 E:\Dataweb\milestone2\bin\Debug\net9.0-windows10.0.19041.0\win10-x64\wwwroot\css\app.css
 E:\Dataweb\milestone2\bin\Debug\net9.0-windows10.0.19041.0\win10-x64\wwwroot\css\bootstrap\bootstrap.min.css
 E:\Dataweb\milestone2\bin\Debug\net9.0-windows10.0.19041.0\win10-x64\wwwroot\css\bootstrap\bootstrap.min.css.map
@@ -413,8 +410,6 @@ E:\Dataweb\milestone2\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\compressed\
 E:\Dataweb\milestone2\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\compressed\ty0753d0n1-6gzpyzhau4.gz
 E:\Dataweb\milestone2\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\compressed\60t7tzyojn-8inm30yfxf.gz
 E:\Dataweb\milestone2\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\compressed\c5rg7fo11l-nah8qwmqf5.gz
-E:\Dataweb\milestone2\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\compressed\lcmdm4xvj7-8b0nnhb6bi.gz
-E:\Dataweb\milestone2\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\compressed\chb9gux1dt-8b0nnhb6bi.gz
 E:\Dataweb\milestone2\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\staticwebassets.build.json
 E:\Dataweb\milestone2\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\staticwebassets.development.json
 E:\Dataweb\milestone2\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\staticwebassets.build.endpoints.json
@@ -425,8 +420,6 @@ E:\Dataweb\milestone2\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\staticwebas
 E:\Dataweb\milestone2\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\staticwebassets\msbuild.buildTransitive.milestone2.props
 E:\Dataweb\milestone2\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\staticwebassets.pack.json
 E:\Dataweb\milestone2\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\staticwebassets.upToDateCheck.txt
-E:\Dataweb\milestone2\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\compressed\publish\lcmdm4xvj7-8b0nnhb6bi.br
-E:\Dataweb\milestone2\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\compressed\publish\chb9gux1dt-8b0nnhb6bi.br
 E:\Dataweb\milestone2\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\compressed\publish\54hxmc2vlt-e5tk7yf482.br
 E:\Dataweb\milestone2\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\compressed\publish\ty0753d0n1-6gzpyzhau4.br
 E:\Dataweb\milestone2\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\compressed\publish\60t7tzyojn-8inm30yfxf.br
@@ -530,3 +523,11 @@ E:\Dataweb\milestone2\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\pri.resfile
 E:\Dataweb\milestone2\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\qualifiers.txt
 E:\Dataweb\milestone2\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\qualifiers.txt.intermediate
 E:\Dataweb\milestone2\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\MultipleQualifiersPerDimensionFound.txt
+E:\Dataweb\milestone2\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\milestone2.sourcelink.json
+E:\Dataweb\milestone2\bin\Debug\net9.0-windows10.0.19041.0\win10-x64\wwwroot\milestone2.8b0nnhb6bi.bundle.scp.css.gz
+E:\Dataweb\milestone2\bin\Debug\net9.0-windows10.0.19041.0\win10-x64\wwwroot\milestone2.8b0nnhb6bi.bundle.scp.css.br
+E:\Dataweb\milestone2\bin\Debug\net9.0-windows10.0.19041.0\win10-x64\wwwroot\milestone2.8b0nnhb6bi.bundle.scp.css
+E:\Dataweb\milestone2\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\compressed\lcmdm4xvj7-8b0nnhb6bi.gz
+E:\Dataweb\milestone2\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\compressed\chb9gux1dt-8b0nnhb6bi.gz
+E:\Dataweb\milestone2\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\compressed\publish\lcmdm4xvj7-8b0nnhb6bi.br
+E:\Dataweb\milestone2\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\compressed\publish\chb9gux1dt-8b0nnhb6bi.br

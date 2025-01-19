@@ -11,13 +11,12 @@
     <input @bind="LoginUsername" placeholder="Username" required />
     <input @bind="LoginPassword" placeholder="Password" type="password" required />
 
-    @* <div class="userlabel"> *@
-    @*     <label for="currency" class="user-label">Currency</label> *@
-    @*     <select class="userinput form-control" id="currency" @bind="SelectedCurrency"> *@
-    @*         <option value="USD">$ (USD)</option> *@
-    @*         <option value="NRP">NRP (Nepalese Rupee)</option> *@
-    @*     </select> *@
-    @* </div> *@
+    <label for="currency" class="user-label">Currency</label>
+    <select id="currency" @bind="SelectedCurrency">
+        <option value="USD">$ (USD)</option>
+        <option value="NPR">Rs (Nepalese Rupee)</option>
+        <option value="EUR">€ (Euro)</option>
+    </select>
 
     <button @onclick="HandleLogin">Login</button>
     <a href="/register" class="register-link">Register</a>
@@ -38,6 +37,8 @@
     protected override void OnInitialized()
     {
         Users = UserService.LoadUsers();
+        SelectedCurrency = UserService.GetCurrency(); // Retrieve the default currency
+
     }
 
     private void HandleLogin()
@@ -46,7 +47,7 @@
 
         if (user != null && UserService.ValidatePassword(LoginPassword, user.Password))
         {
-            // Redirect to dashboard if login is successful
+            UserService.SetCurrency(SelectedCurrency); // Save the selected currency
             NavigationManager.NavigateTo("/dashboard");
         }
         else
@@ -58,6 +59,20 @@
 }
 
 <style>
+    /* Currency Dropdown */
+    select {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-bottom: 15px;
+        box-sizing: border-box;
+        appearance: none; /* For removing arrow in some browsers */
+        background-color: #f9f9f9;
+    }
+
     /* General Body Styling */
     body {
         margin: 0;

@@ -1,4 +1,4 @@
-2025/01/15-20:46:44.099 497c Reusing MANIFEST E:\Dataweb\milestone2\bin\Debug\net9.0-windows10.0.19041.0\win10-x64\milestone2.exe.WebView2\EBWebView\Default\Session Storage/MANIFEST-000001
-2025/01/15-20:46:44.100 497c Recovering log #3
-2025/01/15-20:46:44.101 497c (ignoring error) E:\Dataweb\milestone2\bin\Debug\net9.0-windows10.0.19041.0\win10-x64\milestone2.exe.WebView2\EBWebView\Default\Session Storage/000003.log: dropping 1519 bytes; Corruption: checksum mismatch
-2025/01/15-20:46:44.103 497c Reusing old log E:\Dataweb\milestone2\bin\Debug\net9.0-windows10.0.19041.0\win10-x64\milestone2.exe.WebView2\EBWebView\Default\Session Storage/000003.log 
+2025/01/19-16:49:33.242 4074 Reusing MANIFEST E:\Dataweb\milestone2\bin\Debug\net9.0-windows10.0.19041.0\win10-x64\milestone2.exe.WebView2\EBWebView\Default\Session Storage/MANIFEST-000001
+2025/01/19-16:49:33.244 4074 Recovering log #3
+2025/01/19-16:49:33.244 4074 (ignoring error) E:\Dataweb\milestone2\bin\Debug\net9.0-windows10.0.19041.0\win10-x64\milestone2.exe.WebView2\EBWebView\Default\Session Storage/000003.log: dropping 2842 bytes; Corruption: checksum mismatch
+2025/01/19-16:49:33.246 4074 Reusing old log E:\Dataweb\milestone2\bin\Debug\net9.0-windows10.0.19041.0\win10-x64\milestone2.exe.WebView2\EBWebView\Default\Session Storage/000003.log 

@@ -3,16 +3,32 @@
   "WorkspaceRootPath": "E:\\Dataweb\\milestone2\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{74524833-E761-4EF3-867A-85EBBE288EC0}|milestone2.csproj|e:\\dataweb\\milestone2\\models\\debts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{74524833-E761-4EF3-867A-85EBBE288EC0}|milestone2.csproj|solutionrelative:models\\debts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{74524833-E761-4EF3-867A-85EBBE288EC0}|milestone2.csproj|e:\\dataweb\\milestone2\\components\\pages\\dashboard.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{74524833-E761-4EF3-867A-85EBBE288EC0}|milestone2.csproj|solutionrelative:components\\pages\\dashboard.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{74524833-E761-4EF3-867A-85EBBE288EC0}|milestone2.csproj|e:\\dataweb\\milestone2\\components\\pages\\dashboard.razor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{74524833-E761-4EF3-867A-85EBBE288EC0}|milestone2.csproj|solutionrelative:components\\pages\\dashboard.razor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{74524833-E761-4EF3-867A-85EBBE288EC0}|milestone2.csproj|e:\\dataweb\\milestone2\\service\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{74524833-E761-4EF3-867A-85EBBE288EC0}|milestone2.csproj|solutionrelative:service\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{74524833-E761-4EF3-867A-85EBBE288EC0}|milestone2.csproj|e:\\dataweb\\milestone2\\components\\pages\\login.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{74524833-E761-4EF3-867A-85EBBE288EC0}|milestone2.csproj|solutionrelative:components\\pages\\login.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{74524833-E761-4EF3-867A-85EBBE288EC0}|milestone2.csproj|e:\\dataweb\\milestone2\\components\\pages\\mytransaction.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{74524833-E761-4EF3-867A-85EBBE288EC0}|milestone2.csproj|solutionrelative:components\\pages\\mytransaction.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{74524833-E761-4EF3-867A-85EBBE288EC0}|milestone2.csproj|e:\\dataweb\\milestone2\\models\\transaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{74524833-E761-4EF3-867A-85EBBE288EC0}|milestone2.csproj|solutionrelative:models\\transaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{74524833-E761-4EF3-867A-85EBBE288EC0}|milestone2.csproj|e:\\dataweb\\milestone2\\components\\pages\\dashboard.razor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{74524833-E761-4EF3-867A-85EBBE288EC0}|milestone2.csproj|solutionrelative:components\\pages\\dashboard.razor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{74524833-E761-4EF3-867A-85EBBE288EC0}|milestone2.csproj|e:\\dataweb\\milestone2\\models\\debts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{74524833-E761-4EF3-867A-85EBBE288EC0}|milestone2.csproj|solutionrelative:models\\debts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,24 +38,75 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "Dashboard.razor.cs",
               "DocumentMoniker": "E:\\Dataweb\\milestone2\\Components\\Pages\\Dashboard.razor.cs",
               "RelativeDocumentMoniker": "Components\\Pages\\Dashboard.razor.cs",
               "ToolTip": "E:\\Dataweb\\milestone2\\Components\\Pages\\Dashboard.razor.cs",
               "RelativeToolTip": "Components\\Pages\\Dashboard.razor.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAACQAAAAAAAAAAAAUwF4AAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-12T03:23:54.661Z",
-              "IsPinned": true
+              "IsPinned": true,
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
+              "Title": "Dashboard.razor",
+              "DocumentMoniker": "E:\\Dataweb\\milestone2\\Components\\Pages\\Dashboard.razor",
+              "RelativeDocumentMoniker": "Components\\Pages\\Dashboard.razor",
+              "ToolTip": "E:\\Dataweb\\milestone2\\Components\\Pages\\Dashboard.razor",
+              "RelativeToolTip": "Components\\Pages\\Dashboard.razor",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAEMAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-01-19T09:55:40.145Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UserService.cs",
+              "DocumentMoniker": "E:\\Dataweb\\milestone2\\Service\\UserService.cs",
+              "RelativeDocumentMoniker": "Service\\UserService.cs",
+              "ToolTip": "E:\\Dataweb\\milestone2\\Service\\UserService.cs",
+              "RelativeToolTip": "Service\\UserService.cs",
+              "ViewState": "AgIAADgAAAAAAAAAAAAswAoAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-19T09:50:22.103Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Login.razor",
+              "DocumentMoniker": "E:\\Dataweb\\milestone2\\Components\\Pages\\Login.razor",
+              "RelativeDocumentMoniker": "Components\\Pages\\Login.razor",
+              "ToolTip": "E:\\Dataweb\\milestone2\\Components\\Pages\\Login.razor",
+              "RelativeToolTip": "Components\\Pages\\Login.razor",
+              "ViewState": "AgIAABoAAAAAAAAAAAAEwCkAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-01-19T09:39:15.563Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "MyTransaction.razor",
+              "DocumentMoniker": "E:\\Dataweb\\milestone2\\Components\\Pages\\MyTransaction.razor",
+              "RelativeDocumentMoniker": "Components\\Pages\\MyTransaction.razor",
+              "ToolTip": "E:\\Dataweb\\milestone2\\Components\\Pages\\MyTransaction.razor",
+              "RelativeToolTip": "Components\\Pages\\MyTransaction.razor",
+              "ViewState": "AgIAAHYAAAAAAAAAAAAYwFMBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-01-16T13:13:30.017Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "Transaction.cs",
               "DocumentMoniker": "E:\\Dataweb\\milestone2\\Models\\Transaction.cs",
               "RelativeDocumentMoniker": "Models\\Transaction.cs",
@@ -47,12 +114,11 @@
               "RelativeToolTip": "Models\\Transaction.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-15T14:16:01.812Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-15T14:16:01.812Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 6,
               "Title": "Debts.cs",
               "DocumentMoniker": "E:\\Dataweb\\milestone2\\Models\\Debts.cs",
               "RelativeDocumentMoniker": "Models\\Debts.cs",
@@ -60,8 +126,7 @@
               "RelativeToolTip": "Models\\Debts.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-12T03:06:38.034Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-12T03:06:38.034Z"
             }
           ]
         }
